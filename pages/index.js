@@ -1,5 +1,6 @@
-import Detail from "../modules/property-details";
-import {Banner} from "../components/banner"
+/* eslint-disable react/react-in-jsx-scope */
+import Detail from '../modules/property-details'
+import { Banner } from '../components/banner'
 
 export default function PropertyDetails() {
   return (
@@ -7,5 +8,5 @@ export default function PropertyDetails() {
       <Banner>Property Details</Banner>
       <Detail/>
     </>   
-  );
+  )
 }

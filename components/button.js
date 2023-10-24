@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 // This is an example component
 // You shouldn't need to make any changes here
@@ -10,4 +10,4 @@ export const Button = styled.button`
   padding:  ${(props) => props.theme.space.s};
   width: 100%;
   border: none;
-`;
+`

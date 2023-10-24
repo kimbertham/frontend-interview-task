@@ -1,106 +1,103 @@
+/* eslint-disable no-empty-pattern */
 /* eslint-disable max-statements */
-import { add, format } from "date-fns";
-import React from "react";
-import { Button } from "../../components/button";
-import RowContainer from "../../components/row-container";
-import {
-  AccountHeadline, AccountLabel, AccountList, AccountListItem, AccountSection, InfoText, Inset
-} from "./style";
-
-
-const account = {
-  uid: "65156cdc-5cfd-4b34-b626-49c83569f35e",
-  deleted: false,
-  dateCreated: "2020-12-03T08:55:33.421Z",
-  currency: "GBP",
-  name: "15 Temple Way",
-  bankName: "Residential",
-  type: "properties",
-  subType: "residential",
-  originalPurchasePrice: 250000,
-  originalPurchasePriceDate: "2017-09-03",
-  recentValuation: { amount: 310000, status: "good" },
-  associatedMortgages: [
-    {
-      name: "HSBC Repayment Mortgage",
-      uid: "fb463121-b51a-490d-9f19-d2ea76f05e25",
-      currentBalance: -175000,
-    },
-  ],
-  canBeManaged: false,
-  postcode: "BS1 2AA",
-  lastUpdate: "2020-12-01T08:55:33.421Z",
-  updateAfterDays: 30,
-};
+import { add, format } from 'date-fns'
+import React, { useEffect, useState } from 'react'
+import { Button } from '../../components/button'
+import RowContainer from '../../components/row-container'
+import AccountListComp from '../../components/AccountList'
+import { Inset } from './style'
+import AccountSection from '../../components/AccoutSection'
+import axios from 'axios'
 
 const Detail = ({}) => {
-  let mortgage;
-  const lastUpdate = new Date(account.lastUpdate);
-  if (account.associatedMortgages.length) {
-    mortgage = account.associatedMortgages[0];
-  }
+  const [account,setAccount] = useState()
+
+  useEffect(() => {
+    const getData =  async () => {
+      const res = (await axios.get('/api/account')).data.account
+      setAccount(res)
+    }
+
+    getData()
+  }, [])
+
+  if (!account ) return null
+
+  //estimatedValue
+  const lastUpdate = new Date(account.lastUpdate)
+  const estimatedValueHead = new Intl.NumberFormat('en-GB', { style: 'currency',  currency: 'GBP' }).format(account.recentValuation.amount)
+  const estimatedValueUpdate = `Last updated ${format(lastUpdate, 'do MMM yyyy')}`
+  const estimatedValueNextUpdate = `Next update ${format(add(lastUpdate, { days: account.updateAfterDays }),'do MMM yyyy' )}` 
+
+  //ValuationChange
+  const purchasedTitle = `Purchased for £${account.originalPurchasePrice} in ${format( new Date(account.originalPurchasePriceDate),'MMMM yyyy')}`
+  const sincePurchase = account.recentValuation.amount - account.originalPurchasePrice
+  const sincePurchasePercentage = sincePurchase / account.originalPurchasePrice * 100
+  const annualAppreciation = sincePurchasePercentage / (format(new Date(), 'yyyy') - format(new Date(account.originalPurchasePriceDate), 'yyyy'))
+
+  //Mortgage
+  let mortgage
+  if (account.associatedMortgages.length) mortgage = account.associatedMortgages[0]
+  const mortgageAmount = new Intl.NumberFormat('en-GB', { style: 'currency',currency: 'GBP' }).format(Math.abs(account.associatedMortgages[0].currentBalance))
+  const mortgageTitle = account.associatedMortgages[0].name
+  
+
+  const sections = [{
+    title: 'Estimated Value',
+    condition: true,
+    headline: estimatedValueHead,
+    list: [
+      estimatedValueUpdate,
+      estimatedValueNextUpdate
+    ]
+  },{
+    title: 'Property details',
+    condition: true,
+    list: [
+      account.name,
+      account.bankName,
+      account.postcode
+    ]
+  },{
+    title: 'Valuation change',
+    condition: true,
+    list: [
+      purchasedTitle,
+      { title: 'Since Purchase',
+        value: `£ ${sincePurchase} (${sincePurchasePercentage}%)`
+      },
+      { title: 'Annual Appreciation',
+        value: annualAppreciation + '%'
+      }] 
+  },{
+    title: 'Mortgage',
+    condition: mortgage,
+    rowContainer: () => alert('You have navigated to the mortgage page'),
+    list: [
+      mortgageAmount,
+      mortgageTitle
+    ]
+  }]
+
 
   return (
     <Inset>
-      <AccountSection>
-        <AccountLabel>Estimated Value</AccountLabel>
-        <AccountHeadline>
-          {new Intl.NumberFormat("en-GB", {
-            style: "currency",
-            currency: "GBP",
-          }).format(account.recentValuation.amount)}
-        </AccountHeadline>
-        <AccountList>
-          <AccountListItem><InfoText>
-            {`Last updated ${format(lastUpdate, "do MMM yyyy")}`}
-          </InfoText></AccountListItem>
-          <AccountListItem><InfoText>
-            {`Next update ${format(
-              add(lastUpdate, { days: account.updateAfterDays }),
-              "do MMM yyyy"
-            )}`}
-          </InfoText></AccountListItem>
-        </AccountList>
-      </AccountSection>
-      <AccountSection>
-        <AccountLabel>Property details</AccountLabel>
-        <RowContainer>
-          <AccountList>
-            <AccountListItem><InfoText>{account.name}</InfoText></AccountListItem>
-            <AccountListItem><InfoText>{account.bankName}</InfoText></AccountListItem>
-            <AccountListItem><InfoText>{account.postcode}</InfoText></AccountListItem>
-          </AccountList>
-        </RowContainer>
-      </AccountSection>
-      {mortgage && (
-        <AccountSection>
-          <AccountLabel>Mortgage</AccountLabel>
-          <RowContainer
-            // This is a dummy action
-            onClick={() => alert("You have navigated to the mortgage page")}
-          >
-            <AccountList>
-              <AccountListItem><InfoText>
-                {new Intl.NumberFormat("en-GB", {
-                  style: "currency",
-                  currency: "GBP",
-                }).format(
-                  Math.abs(account.associatedMortgages[0].currentBalance)
-                )}
-              </InfoText></AccountListItem>
-              <AccountListItem><InfoText>{account.associatedMortgages[0].name}</InfoText></AccountListItem>
-            </AccountList>
+    
+      {sections.map(section => (
+        section.condition &&
+        <AccountSection key={section.title} label={section.title} headline={section.headline}>
+          <RowContainer onClick={section.rowContainer}>
+            <AccountListComp 
+              list={section.list} />
           </RowContainer>
         </AccountSection>
-      )}
-      <Button
-        // This is a dummy action
-        onClick={() => alert("You have navigated to the edit account page")}
-      >
+      ))}
+      
+      <Button onClick={() => alert('You have navigated to the edit account page')} >
         Edit account
       </Button>
     </Inset>
-  );
-};
+  )
+}
 
-export default Detail;
+export default Detail

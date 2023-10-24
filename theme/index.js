@@ -1,79 +1,83 @@
-import Color from "color"
+import Color from 'color'
 
 export const generateShades = (hex) => ({
   default: hex,
   contrast: Color(hex).negate().hex(),
   dark: Color(hex).darken(0.3).hex(),
-  light: Color(hex).lighten(0.8).hex(),
+  light: Color(hex).lighten(0.8).hex()
 })
 
 export const theme = {
   fonts: {
-    body: `"sans-serif"`,
+    body: '"sans-serif"'
   },
   colors: {
-    primary: generateShades("#01a5b8"),
+    primary: generateShades('#01a5b8'),
     neutral: {
-      default: "#9e9e9e",
-      100: "#f7f7f7",
-      200: "#e1e1e1",
-      300: "#cfcfcf",
-      400: "#b1b1b1",
-      500: "#9e9e9e",
-      600: "#7e7e7e",
-      700: "#626262",
-      800: "#515151",
-      900: "#3b3b3b",
-      1000: "#222222",
+      default: '#9e9e9e',
+      100: '#f7f7f7',
+      200: '#e1e1e1',
+      300: '#cfcfcf',
+      400: '#b1b1b1',
+      500: '#9e9e9e',
+      600: '#7e7e7e',
+      700: '#626262',
+      800: '#515151',
+      900: '#3b3b3b',
+      1000: '#222222'
+    },
+    positive: {
+      100: '#c2f7e1',
+      200: '#006b57'
     },
     white: {
-      default: "#fff",
-    },
+      default: '#fff'
+    }
   },
   typography: {
     xs: {
-      fontSize: "12px",
-      lineHeight: 1.7,
+      fontSize: '12px',
+      lineHeight: 1.7
     },
     s: {
-      fontSize: "14px",
-      lineHeight: 1.6,
+      fontSize: '14px',
+      lineHeight: 1.6
     },
     m: {
-      fontSize: "16px",
-      lineHeight: 1.6,
+      fontSize: '16px',
+      lineHeight: 1.6
     },
     l: {
-      fontSize: "18px",
-      lineHeight: 1.5,
+      fontSize: '18px',
+      lineHeight: 1.5
     },
     xl: {
-      fontSize: "20px",
-      lineHeight: 1.4,
+      fontSize: '20px',
+      lineHeight: 1.4
     },
-    "2xl": {
-      fontSize: "24px",
-      lineHeight: 1.3,
+    '2xl': {
+      fontSize: '24px',
+      lineHeight: 1.3
     },
-    "3xl": {
-      fontSize: "30px",
-      lineHeight: 1.2,
+    '3xl': {
+      fontSize: '30px',
+      lineHeight: 1.2
     },
-    "4xl": {
-      fontSize: "36px",
-      lineHeight: 1.2,
+    '4xl': {
+      fontSize: '36px',
+      lineHeight: 1.2
     },
-    "5xl": {
-      fontSize: "48px",
-      lineHeight: 1.1,
-    },
+    '5xl': {
+      fontSize: '48px',
+      lineHeight: 1.1
+    }
   },
   space: {
-    xs: "4px",
-    s: "8px",
-    m: "16px",
-    l: "32px",
-    xl: "64px",
+    xs: '4px',
+    s: '8px',
+    m: '16px',
+    l: '32px',
+    xl: '64px'
   },
   breakpoints: {
     xxs: 375,
@@ -83,6 +87,6 @@ export const theme = {
     l: 1024,
     xl: 1300,
     xxl: 1400,
-    xxxl: 1600,
-  },
+    xxxl: 1600
+  }
 }

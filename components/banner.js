@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 // This is an example component
 // You shouldn't need to make any changes here

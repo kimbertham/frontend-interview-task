@@ -1,8 +1,8 @@
-import styled, {ThemeProvider} from "styled-components"
+import styled, { ThemeProvider } from 'styled-components'
 
-import {theme} from "../theme"
-import "../styles/reset.css"
-import "../styles/globals.css"
+import { theme } from '../theme'
+import '../styles/reset.css'
+import '../styles/globals.css'
 
 const Body = styled.div`
   background-color: ${(props) => props.theme.colors.white.default};
@@ -51,18 +51,19 @@ const Content = styled.div`
   padding-bottom: 100px;
 `
 
-function App({Component, pageProps}) {
+function App({ Component, pageProps }) {
   return (
     <ThemeProvider theme={theme}>
       <Body>
-      <Page>
-        <Sidebar />
-        <Content>
-        <Component {...pageProps} />
-        </Content>
-        <NavBar />
-      </Page>
-    </Body>
+        <Page>
+          <Sidebar />
+          <Content>
+            <Component {...pageProps} />
+          </Content>
+          <NavBar />
+      
+        </Page>
+      </Body>
     </ThemeProvider>
   )
 }

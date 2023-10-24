@@ -1,5 +1,5 @@
-import styled, {css} from "styled-components";
-import PropTypes from "prop-types";
+import styled, { css } from 'styled-components'
+import PropTypes from 'prop-types'
 
 // This is an example component
 // You shouldn't need to make any changes here
@@ -11,21 +11,21 @@ align-items: center;
   margin-bottom: ${(props) => props.theme.space.m};
 }
 ${(props) =>
-  props.onClick &&
+    props.onClick &&
   css`
     cursor: pointer;
   `}
-`;
+`
 
-const RowContainer = ({children, onClick}) => (
-    <ClickableContainer onClick={onClick}>
-        {children}
-    </ClickableContainer>
+const RowContainer = ({ children, onClick }) => (
+  <ClickableContainer onClick={onClick}>
+    {children}
+  </ClickableContainer>
 )
 
 RowContainer.propTypes = {
-    children: PropTypes.node.isRequired,
-    onClick: PropTypes.func,
+  children: PropTypes.node.isRequired,
+  onClick: PropTypes.func
 }
 
 export default RowContainer

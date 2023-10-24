@@ -32,8 +32,25 @@ Consider opportunities to reduce repetition in the code and increase legibility
 We also ask that you update the readme with answers to the following questions 
 
 1. Given more time, what other changes you would have liked to make?
+
+```
+Given more time I would complete the prop types and create a lib file to keep a dateFormat function and variables separated out by comments at the moment as it currently looks quite messy and difficult to read with so many format functions creating new dates.
+ I would also conditonally reference object keys instead of returning null before api call holds it into state.
+ I would also better handle the currency to use the appropriate sign, the pound sign is currently hard coded in. 
+```
+
 2. What UX or design improvements or alterations might you suggest? These can be to existing components or completely new ideas.
 
+```
+Currently the side bar doesnt reach the end of the page and leaves the button hanging off, would change the height width to run to the end of the page. 
+I would change the edit button to a smaller icon so it takes up less space and appear less like a submit action type button. 
+
+I would also reduce margin between details in each section and use more clearly segment individual segments. Possible have sections as collapsible accordions. 
+Move side nav to the far right and extend page across entire width, removing white spaces on each side.
+Give detail titles like address, mortgage amount, etc. rather than just listing them in different section per line. 
+At the moment I've put the details into an object to map through as its more of a simple segment design but if each section was to change and involve maps, images etc I would have created smaller reusable components and included them indivually in the jsx. 
+
+```
 ----
 
 **Optional**: If you have time, show us some more by fetching the data from the api
